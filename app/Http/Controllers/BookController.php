@@ -8,6 +8,14 @@ class BookController extends Controller
 {
     public function index()
     {
-        return view('books.index');
+        $books = [
+            'Pemrograman PHP',
+            'Laravel untuk Pemula',
+            'Basis Data',
+            'Algoritma dan Pemrograman',
+            'Pemrograman Berorientasi Objek'
+        ];
+
+        return view('books.index', compact('books'));
     }
 }
