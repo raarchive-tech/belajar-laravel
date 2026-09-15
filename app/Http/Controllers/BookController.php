@@ -13,9 +13,18 @@ class BookController extends Controller
             'Laravel untuk Pemula',
             'Basis Data',
             'Algoritma dan Pemrograman',
-            'Pemrograman Berorientasi Objek'
+            'Pemrograman Berorientasi Objek',
+            'Sistem Operasi',
+            'Analisis Data'
         ];
 
-        return view('books.index', compact('books'));
+        $stock = 7;
+
+        return view('books.index', compact('books', 'stock'));
+    }
+
+    public function show($id)
+    {
+        return view('books.show', compact('id'));
     }
 }
