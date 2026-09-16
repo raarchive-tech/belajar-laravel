@@ -9,11 +9,11 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = [
-            'Pemrograman',
-            'Basis Data',
-            'Jaringan Komputer',
-            'Sistem Informasi',
-            'Algoritma'
+            'Aksi',
+            'Fantasi',
+            'Thriller',
+            'Romance',
+            'Slice of Life'
         ];
 
         return view('categories.index', compact('categories'));
