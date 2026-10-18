@@ -23,14 +23,18 @@ class BookController extends Controller
     // 3. STORE - Menyimpan data buku baru ke database
     public function store(Request $request)
     {
-        Book::create([
-            'title'  => $request->title,
-            'author' => $request->author,
-            'year'   => $request->year,
-            'stock'  => $request->stock,
+        $validated = $request->validate([
+            'title'  => 'required|string|max:255',
+            'author' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s\.\',]+$/'],
+            'year'   => 'required|integer|digits:4|min:1900',
+            'stock'  => 'required|integer|min:0|max:100'
         ]);
 
-        return redirect()->route('books.index');
+        Book::create($validated);
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Data Buku Berhasil Ditambahkan');
     }
 
     // 4. READ DETAIL - Menampilkan detail satu buku
@@ -48,14 +52,18 @@ class BookController extends Controller
     // 6. UPDATE - Menyimpan perubahan data buku
     public function update(Request $request, Book $book)
     {
-        $book->update([
-            'title'  => $request->title,
-            'author' => $request->author,
-            'year'   => $request->year,
-            'stock'  => $request->stock,
+        $validated = $request->validate([
+            'title'  => 'required|string|max:255',
+            'author' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s\.\',]+$/'],
+            'year'   => 'required|integer|digits:4|min:1900',
+            'stock'  => 'required|integer|min:0|max:100'
         ]);
 
-        return redirect()->route('books.index');
+        $book->update($validated);
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Data Buku Berhasil Diperbarui');
     }
 
     // 7. DELETE - Menghapus data buku
@@ -63,6 +71,8 @@ class BookController extends Controller
     {
         $book->delete();
 
-        return redirect()->route('books.index');
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Data Buku Berhasil Dihapus');
     }
 }

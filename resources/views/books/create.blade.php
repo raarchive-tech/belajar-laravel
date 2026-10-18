@@ -1,29 +1,46 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Buku')
+@section('title', 'Tambah Buku Baru')
 
 @section('content')
-    <h3>Tambah Buku Baru</h3>
+    <h2>Tambah Buku Baru</h2>
 
-    <form action="{{ route('books.store') }}" method="POST" style="max-width: 400px;">
+    <form action="{{ route('books.store') }}" method="POST">
         @csrf
-        <p>
-            <label>Judul Buku:</label><br>
-            <input type="text" name="title" required style="width: 100%; padding: 8px;">
-        </p>
-        <p>
-            <label>Penulis:</label><br>
-            <input type="text" name="author" required style="width: 100%; padding: 8px;">
-        </p>
-        <p>
-            <label>Tahun Terbit:</label><br>
-            <input type="number" name="year" required style="width: 100%; padding: 8px;">
-        </p>
-        <p>
-            <label>Stok:</label><br>
-            <input type="number" name="stock" required style="width: 100%; padding: 8px;">
-        </p>
-        <button type="submit" style="padding: 8px 16px; background: #28a745; color: white; border: none; cursor: pointer;">Simpan</button>
-        <a href="{{ route('books.index') }}" style="margin-left: 10px;">Batal</a>
+
+        <div>
+            <label for="title">Judul Buku</label>
+            <input type="text" id="title" name="title" value="{{ old('title') }}">
+            @error('title')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="author">Penulis</label>
+            <input type="text" id="author" name="author" value="{{ old('author') }}">
+            @error('author')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="year">Tahun Terbit</label>
+            <input type="number" id="year" name="year" value="{{ old('year') }}">
+            @error('year')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="stock">Stok</label>
+            <input type="number" id="stock" name="stock" value="{{ old('stock') }}">
+            @error('stock')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <button type="submit">Simpan Buku</button>
+        <a href="{{ route('books.index') }}">Batal</a>
     </form>
 @endsection

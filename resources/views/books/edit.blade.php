@@ -5,26 +5,43 @@
 @section('content')
     <h3>Edit Data Buku</h3>
 
-    <form action="{{ route('books.update', $book) }}" method="POST" style="max-width: 400px;">
+    <form action="{{ route('books.update', $book) }}" method="POST">
         @csrf
         @method('PUT')
+
         <p>
-            <label>Judul Buku:</label><br>
-            <input type="text" name="title" value="{{ $book->title }}" required style="width: 100%; padding: 8px;">
+            <label for="title">Judul Buku:</label><br>
+            <input type="text" id="title" name="title" value="{{ old('title', $book->title) }}">
+            @error('title')
+                <br><span>{{ $message }}</span>
+            @enderror
         </p>
+
         <p>
-            <label>Penulis:</label><br>
-            <input type="text" name="author" value="{{ $book->author }}" required style="width: 100%; padding: 8px;">
+            <label for="author">Penulis:</label><br>
+            <input type="text" id="author" name="author" value="{{ old('author', $book->author) }}">
+            @error('author')
+                <br><span>{{ $message }}</span>
+            @enderror
         </p>
+
         <p>
-            <label>Tahun Terbit:</label><br>
-            <input type="number" name="year" value="{{ $book->year }}" required style="width: 100%; padding: 8px;">
+            <label for="year">Tahun Terbit:</label><br>
+            <input type="number" id="year" name="year" value="{{ old('year', $book->year) }}">
+            @error('year')
+                <br><span>{{ $message }}</span>
+            @enderror
         </p>
+
         <p>
-            <label>Stok:</label><br>
-            <input type="number" name="stock" value="{{ $book->stock }}" required style="width: 100%; padding: 8px;">
+            <label for="stock">Stok:</label><br>
+            <input type="number" id="stock" name="stock" value="{{ old('stock', $book->stock) }}">
+            @error('stock')
+                <br><span>{{ $message }}</span>
+            @enderror
         </p>
-        <button type="submit" style="padding: 8px 16px; background: #007bff; color: white; border: none; cursor: pointer;">Update</button>
-        <a href="{{ route('books.index') }}" style="margin-left: 10px;">Batal</a>
+
+        <button type="submit">Update</button>
+        <a href="{{ route('books.index') }}">Batal</a>
     </form>
 @endsection

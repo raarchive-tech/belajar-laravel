@@ -4,11 +4,16 @@
 
 @section('content')
     <h3>Daftar Buku Perpustakaan</h3>
-    <a href="{{ route('books.create') }}" style="display: inline-block; margin-bottom: 15px; text-decoration: none; padding: 6px 12px; background: #28a745; color: white; border-radius: 4px;">+ Tambah Buku Baru</a>
 
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    @if (session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+
+    <a href="{{ route('books.create') }}">+ Tambah Buku Baru</a>
+
+    <table border="1">
         <thead>
-            <tr style="background-color: #f2f2f2;">
+            <tr>
                 <th>ID</th>
                 <th>Judul Buku</th>
                 <th>Penulis</th>
@@ -18,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($books as $book)
+            @forelse($books as $book)
                 <tr>
                     <td>{{ $book->id }}</td>
                     <td>{{ $book->title }}</td>
@@ -28,14 +33,18 @@
                     <td>
                         <a href="{{ route('books.show', $book) }}">Detail</a> | 
                         <a href="{{ route('books.edit', $book) }}">Edit</a> | 
-                        <form action="{{ route('books.destroy', $book) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('books.destroy', $book) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Yakin ingin menghapus buku ini?')" style="color: red; background: none; border: none; cursor: pointer; text-decoration: underline;">Hapus</button>
+                            <button type="submit" onclick="return confirm('Yakin ingin menghapus buku ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6">Belum ada data buku.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 @endsection
