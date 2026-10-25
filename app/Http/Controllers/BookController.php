@@ -4,20 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class BookController extends Controller
 {
     // 1. READ - Menampilkan semua daftar buku
     public function index()
     {
-        $books = Book::all();
+        $books = Book::with('category')->get();
         return view('books.index', compact('books'));
     }
 
     // 2. CREATE - Menampilkan form tambah buku
     public function create()
     {
-        return view('books.create');
+        $title = "Tambah Buku";
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.create', compact('title', 'categories'));
     }
 
     // 3. STORE - Menyimpan data buku baru ke database
@@ -27,7 +31,8 @@ class BookController extends Controller
             'title'  => 'required|string|max:255',
             'author' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s\.\',]+$/'],
             'year'   => 'required|integer|digits:4|min:1900',
-            'stock'  => 'required|integer|min:0|max:100'
+            'stock'  => 'required|integer|min:0|max:100',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         Book::create($validated);
@@ -46,7 +51,8 @@ class BookController extends Controller
     // 5. EDIT - Menampilkan form edit buku
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
+        $categories = Category::orderBy('name')->get();
+        return view('books.edit', compact('book', 'categories'));
     }
 
     // 6. UPDATE - Menyimpan perubahan data buku
@@ -56,7 +62,8 @@ class BookController extends Controller
             'title'  => 'required|string|max:255',
             'author' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s\.\',]+$/'],
             'year'   => 'required|integer|digits:4|min:1900',
-            'stock'  => 'required|integer|min:0|max:100'
+            'stock'  => 'required|integer|min:0|max:100',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         $book->update($validated);
