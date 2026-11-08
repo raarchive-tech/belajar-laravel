@@ -25,3 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/members', [MemberController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index']);
 });
+
+Route::middleware(['auth', 'can:manage-users'])->group(function() {
+    //Route::resource('users', UserController::class);
+
+    Route::get('/users', function() {
+        return "Halo Admin";
+    });
+});
